@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>coffe yrck</title>
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body id="index">
+
+  <header>
+  <nav>
+    <div class="logo">cafe evening rain</div>
+    <ul>
+      <li><a href="index.html" class="now">home</a></li>
+      <li><a href="menu.html">menu</a></li>
+      <li><a href="access.html">access</a></li>
+      <li><a href="form.html">form</a></li>
+    </ul>
+  </nav>
+  </header>
+
+  <main>
+    <div id="dater"></div>
+    <div id="timer"></div>
+    <div id="status"></div>
+
+
+    <script>
+      var counter = function(){
+      var now = new Date();
+
+      if(now.getSeconds()>=10){
+        var date = now.getMonth()+1+'/'+now.getDate();
+        var time = now.getHours()+':'+now.getMinutes()+':'+now.getSeconds();
+      }else {
+        var date = now.getMonth()+1+'/'+now.getDate();
+        var time = now.getHours()+':'+now.getMinutes()+':0'+now.getSeconds();
+      }
+      document.getElementById('dater').textContent = date;
+      document.getElementById('timer').textContent = time;
+
+      if(now.getDay()==0 || now.getDay()==6){
+        if(now.getHours()>9 && now.getHours()<22){
+          document.getElementById('status').textContent = "OPEN";
+        }else{
+          document.getElementById('status').textContent = "Close";
+        }
+      }else {
+        if(now.getHours()>7 && now.getHours()<23){
+          document.getElementById('status').textContent = "OPEN";
+        }else{
+          document.getElementById('status').textContent = "Close";
+        }
+      }
+
+      refresh();
+      }
+
+      var refresh = function(){
+      setTimeout(counter, 1000);
+      }
+
+     counter();
+    </script>
+
+    <div class="circle">
+      <canvas id="canvas" width="220" height="220"></canvas>
+
+    <script>
+    function circle(){
+      var canvas = document.getElementById('canvas');
+      var ctx = canvas.getContext('2d');
+      ctx.strokeStyle= 'rgb(255, 255, 255)';
+      ctx.lineWidth = 10;
+      ctx.beginPath();
+      ctx.arc(110,110 , 100, 0, Math.PI * 2, true);
+      ctx.stroke();
+    };
+
+    circle();
+    </script>
+
+    <script>
+      function animate(){
+
+        var circleAnime = document.getElementById('canvas');
+        circleAnime.animate({
+          transform:[
+          'scale(0.1)' ,
+          'scale(2)'
+        ],opacity:[1.0 , 0]},{
+        duration:500,
+        iteration: Infinity,
+        easing :'ease-in'
+      })};
+
+      animate();
+      setTimeout(animate,300);
+
+    </script>
+    </div>
+
+  </main>
+
+  <footer>
+    <p>2020.Minoru Kawata</p>
+  </footer>
+</body>
+</html>
