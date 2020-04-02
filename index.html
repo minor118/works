@@ -23,10 +23,11 @@
   </header>
 
   <main>
-    <div id="dater"></div>
-    <div id="timer"></div>
-    <div id="status"></div>
-
+    <div id="timer">
+      <div id="date"></div>
+      <div id="time"></div>
+      <div id="status"></div>
+    </div>
 
     <script>
       var counter = function(){
@@ -39,8 +40,8 @@
         var date = now.getMonth()+1+'/'+now.getDate();
         var time = now.getHours()+':'+now.getMinutes()+':0'+now.getSeconds();
       }
-      document.getElementById('dater').textContent = date;
-      document.getElementById('timer').textContent = time;
+      document.getElementById('date').textContent = date;
+      document.getElementById('time').textContent = time;
 
       if(now.getDay()==0 || now.getDay()==6){
         if(now.getHours()>9 && now.getHours()<22){
@@ -66,42 +67,54 @@
      counter();
     </script>
 
-    <div class="circle">
-      <canvas id="canvas" width="220" height="220"></canvas>
+
+    <canvas id="canvas" width="1000" height="800"></canvas>
 
     <script>
-    function circle(){
-      var canvas = document.getElementById('canvas');
-      var ctx = canvas.getContext('2d');
-      ctx.strokeStyle= 'rgb(255, 255, 255)';
-      ctx.lineWidth = 10;
+    var canvas = document.getElementById('canvas');
+    var ctx = canvas.getContext('2d');
+    var positionX, positionY, radius, alpha,alphaDifference;
+
+
+    function circle(a,x,y,radius){
+      ctx.strokeStyle= 'rgba(255, 255, 255,'+ a +')';
+      ctx.fillStyle=  'rgba(255, 255, 255,'+ a +')';
       ctx.beginPath();
-      ctx.arc(110,110 , 100, 0, Math.PI * 2, true);
+      ctx.arc(x, y, radius, 0, Math.PI * 2, true);
       ctx.stroke();
     };
 
-    circle();
+    function circles(a,x,y,radius){
+      for(i=1; i<=5 ;i++){
+        circle(a,x,y,radius+(10*i)+i);
+      }
+    }
+
+    function initialState(){
+      positionX = Math.random() * canvas.width;
+      positionY = Math.random() * canvas.height;
+      radius = 5;
+      alpha = 1;
+      alphaDifference = (Math.random()+1) * 0.005;
+    }
+
+    initialState();
+
+    setInterval(function(){
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      circles(alpha, positionX, positionY, radius);
+      alpha -= alphaDifference;
+      radius += 1;
+
+      if(alpha <= 0){
+        initialState();
+        }
+
+    }, 60/1000);
+
+
     </script>
 
-    <script>
-      function animate(){
-
-        var circleAnime = document.getElementById('canvas');
-        circleAnime.animate({
-          transform:[
-          'scale(0.1)' ,
-          'scale(2)'
-        ],opacity:[1.0 , 0]},{
-        duration:500,
-        iteration: Infinity,
-        easing :'ease-in'
-      })};
-
-      animate();
-      setTimeout(animate,300);
-      //git更新用コメント
-    </script>
-    </div>
 
   </main>
 
